@@ -1,0 +1,120 @@
+======================================================================
+Test Environment
+======================================================================
+Operating System: Windows 11
+Python version: 3.13.12 (tags/v3.13.12:1cbe481, Feb  3 2026, 18:22:25) [MSC v.1944 64 bit (AMD64)]
+Architecture: AMD64
+Test time: 2026-06-11 16:29:53
+======================================================================
+
+======================================================================
+Stability Tests (are two serializations of the same input identical?)
+======================================================================
+
+--- 1. Basic Types ---
+  ✅ PASS: None
+  ✅ PASS: True
+  ✅ PASS: False
+  ✅ PASS: Integer 0
+  ✅ PASS: Integer 42
+  ✅ PASS: Integer -1
+  ✅ PASS: Large integer 2**100
+  ✅ PASS: String 'hello'
+  ✅ PASS: Empty string ''
+  ✅ PASS: Bytes b'hello'
+  ✅ PASS: Empty bytes b''
+
+--- 2. Floating Point Numbers ---
+  ✅ PASS: Float 0.0
+  ✅ PASS: Float 3.14159
+  ✅ PASS: Float -2.5
+  ✅ PASS: Negative zero -0.0
+
+--- 3. Special Floating Point Values (Critical Tests) ---
+  ❌ FAIL: NaN
+      Error: Non-deterministic byte stream detected across environment lifecycles!
+  First: b'g\x00\x00\x00\x00\x00\x00\xf8\x7f'...
+  Second: b'g\x00\x00\x00\x00\x00\x00\xf8\xff'...
+  ✅ PASS: Positive Infinity Inf
+  ✅ PASS: Negative Infinity -Inf
+
+--- 4. Container Types ---
+  ✅ PASS: Empty list []
+  ✅ PASS: Single-element list [1]
+  ✅ PASS: Nested list [1, [2, 3]]
+  ✅ PASS: Empty tuple ()
+  ✅ PASS: Single-element tuple (1,)
+  ✅ PASS: Tuple (1,2,3)
+  ✅ PASS: Empty dict {}
+  ✅ PASS: Dict {'a': 1}
+  ✅ PASS: Empty set set()
+  ✅ PASS: Set {1,2,3}
+  ✅ PASS: Empty frozenset frozenset()
+  ✅ PASS: Frozenset frozenset({1,2})
+
+--- 5. Boundary Values ---
+  ✅ PASS: Very large integer 2**100000
+  ✅ PASS: Very small integer -2**100000
+  ✅ PASS: Long string 'a' * 10000
+  ✅ PASS: Large list list(range(1000))
+
+--- 6. Recursive/Cyclic Structures ---
+  ❌ FAIL: Self-referential list
+      Error: Cyclic structure serialization detected. Broken logical hash-equivalence.
+  ❌ FAIL: Self-referential dictionary
+      Error: Cyclic structure serialization detected. Broken logical hash-equivalence.
+  ❌ FAIL: Mutually referential lists
+      Error: Cyclic structure serialization detected. Broken logical hash-equivalence.
+
+--- 7. Composite Types ---
+  ✅ PASS: Composite dictionary object
+
+--- 8. Fuzz Testing ---
+  ✅ PASS: Random float #1
+  ✅ PASS: Random float #2
+  ✅ PASS: Random float #3
+  ✅ PASS: Random float #4
+  ✅ PASS: Random float #5
+  ✅ PASS: Random float #6
+  ✅ PASS: Random float #7
+  ✅ PASS: Random float #8
+  ✅ PASS: Random float #9
+  ✅ PASS: Random float #10
+  ✅ PASS: Random float #11
+  ✅ PASS: Random float #12
+  ✅ PASS: Random float #13
+  ✅ PASS: Random float #14
+  ✅ PASS: Random float #15
+  ✅ PASS: Random float #16
+  ✅ PASS: Random float #17
+  ✅ PASS: Random float #18
+  ✅ PASS: Random float #19
+  ✅ PASS: Random float #20
+
+======================================================================
+Round-trip Correctness Tests (dump -> load == original?)
+======================================================================
+  ✅ PASS (roundtrip): None
+  ✅ PASS (roundtrip): Integer 42
+  ✅ PASS (roundtrip): Large integer
+  ✅ PASS (roundtrip): Float 3.14
+  ✅ PASS (roundtrip): NaN (NaN handled)
+  ✅ PASS (roundtrip): String 'hello'
+  ✅ PASS (roundtrip): List [1,2,3]
+  ✅ PASS (roundtrip): Dict {'a':1}
+  ✅ PASS (roundtrip): Empty list
+  ✅ PASS (roundtrip): Empty dict
+
+======================================================================
+Test Summary
+======================================================================
+Total tests: 68
+Passed: 64
+Failed: 4
+Pass rate: 94.1%
+
+Failed tests:
+  - NaN
+  - Self-referential list
+  - Self-referential dictionary
+  - Mutually referential lists
